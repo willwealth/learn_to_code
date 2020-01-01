@@ -12,10 +12,10 @@ using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Drawing.Imaging;
 
-namespace SimLorenzAtrc2
+namespace SimLorenzAtrc
 {
 
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
         int dimension = 3;
         double scale = 100;
@@ -93,13 +93,13 @@ namespace SimLorenzAtrc2
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // Form1
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 1017);
             this.Controls.Add(this.panel1);
-            this.Name = "Form1";
+            this.Name = "Form2";
             this.Text = "Lorenz Attractor";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -404,14 +404,14 @@ namespace SimLorenzAtrc2
             Invoke(new simulateDelegate(DrawOrthonormalBasis2));
         }
 
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
             pictureBox1.Image = new Bitmap(imax, jmax);
             pixelunit = scale / imax;
             leftUp = new PointF(pos_left, pos_up);
 
-            //Form2 form2 = new Form2(this);
+            //Form1 form2 = new Form1(this);
             //form2.Show();
         }
 
@@ -435,9 +435,9 @@ namespace SimLorenzAtrc2
     }/* end form1 */
 
 
-    public partial class Form2 : Form
+    public partial class Form1 : Form
     {
-        Form1 fm1;
+        Form2 fm2;
 
 // designer
         /// <summary>
@@ -694,7 +694,7 @@ namespace SimLorenzAtrc2
             this.textBox5.Text = "0";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // Form2
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -720,10 +720,10 @@ namespace SimLorenzAtrc2
             this.Controls.Add(this.trackBar3);
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.trackBar1);
-            this.Name = "Form2";
+            this.Name = "Form1";
             this.Text = "Control Form";
             //this.TopMost = true;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
@@ -759,38 +759,38 @@ namespace SimLorenzAtrc2
         private System.Windows.Forms.TextBox textBox5;
 //
 
-        public Form2()
+        public Form1()
         {
             InitializeComponent();
-            //fm1 = form1;
-            //Form2 form2 = new Form2(this);
+            //fm2 = form1;
+            //Form1 form2 = new Form1(this);
             //form2.Show();
-            fm1 = new Form1();
-            fm1.Show();
-            ((Form1)fm1).CalcAttractor();
-            ((Form1)fm1).DrawOrthonormalBasis();
+            fm2 = new Form2();
+            fm2.Show();
+            ((Form2)fm2).CalcAttractor();
+            ((Form2)fm2).DrawOrthonormalBasis();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             textBox1.Text = (trackBar1.Value).ToString();
-            ((Form1)fm1).arg[0] = ((double)trackBar1.Value) * Math.PI / 100.0;
-            ((Form1)fm1).DrawOrthonormalBasis();
+            ((Form2)fm2).arg[0] = ((double)trackBar1.Value) * Math.PI / 100.0;
+            ((Form2)fm2).DrawOrthonormalBasis();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             textBox2.Text = (trackBar2.Value).ToString();
-            ((Form1)fm1).arg[1] = ((double)trackBar2.Value) * Math.PI / 100.0;
-            ((Form1)fm1).DrawOrthonormalBasis();
+            ((Form2)fm2).arg[1] = ((double)trackBar2.Value) * Math.PI / 100.0;
+            ((Form2)fm2).DrawOrthonormalBasis();
 
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             textBox3.Text = (trackBar3.Value).ToString();
-            ((Form1)fm1).arg[2] = ((double)trackBar3.Value) * Math.PI / 100.0;
-            ((Form1)fm1).DrawOrthonormalBasis();
+            ((Form2)fm2).arg[2] = ((double)trackBar3.Value) * Math.PI / 100.0;
+            ((Form2)fm2).DrawOrthonormalBasis();
 
         }
 
@@ -804,37 +804,37 @@ namespace SimLorenzAtrc2
         private void button1_Click(object sender, EventArgs e)
         {
             SetEnabled(false);
-            ((Form1)fm1).start_drawing();
+            ((Form2)fm2).start_drawing();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             SetEnabled(true);
-            ((Form1)fm1).stop_drawing();
+            ((Form2)fm2).stop_drawing();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ((Form1)fm1).save_image();
+            ((Form2)fm2).save_image();
         }
 
-        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ((Form1)fm1).stop_drawing();
+            ((Form2)fm2).stop_drawing();
         }
 
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             textBox4.Text = (trackBar4.Value).ToString();
-            ((Form1)fm1).shift_up = -0.5f*(float)(trackBar4.Value);
-            ((Form1)fm1).DrawOrthonormalBasis();
+            ((Form2)fm2).shift_up = -0.5f*(float)(trackBar4.Value);
+            ((Form2)fm2).DrawOrthonormalBasis();
         }
 
         private void trackBar5_Scroll(object sender, EventArgs e)
         {
             textBox5.Text = (trackBar5.Value).ToString();
-            ((Form1)fm1).shift_left = -0.2f*(float)(trackBar5.Value);
-            ((Form1)fm1).DrawOrthonormalBasis();
+            ((Form2)fm2).shift_left = -0.2f*(float)(trackBar5.Value);
+            ((Form2)fm2).DrawOrthonormalBasis();
         }
     }/* end form2 */
 
@@ -849,7 +849,7 @@ namespace SimLorenzAtrc2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form2());
+            Application.Run(new Form1());
         }
     }
 }
