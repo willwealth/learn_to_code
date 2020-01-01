@@ -106,13 +106,18 @@ namespace SimLorenzAtrc
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
+	    //
+	    // saveFileDialog1
+	    //
+	    this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();  // image File
+            this.saveFileDialog1.Filter = "jpgファイル|*.jpg|bmpファイル|*.bmp";
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
+	private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         
         public Point Value2Pixel(double x, double y)
         {
@@ -410,9 +415,6 @@ namespace SimLorenzAtrc
             pictureBox1.Image = new Bitmap(imax, jmax);
             pixelunit = scale / imax;
             leftUp = new PointF(pos_left, pos_up);
-
-            //Form1 form2 = new Form1(this);
-            //form2.Show();
         }
 
         internal void start_drawing()
@@ -430,9 +432,17 @@ namespace SimLorenzAtrc
         }
         internal void save_image()
         {
-            pictureBox1.Image.Save("attractor.jpg", ImageFormat.Jpeg);
+            if ( saveFileDialog1.ShowDialog() == DialogResult.OK )
+            {
+                 if ( saveFileDialog1.FilterIndex == 1 ){
+                     pictureBox1.Image.Save(saveFileDialog1.FileName,ImageFormat.Jpeg);
+                 }
+                 else if ( saveFileDialog1.FilterIndex == 2 ){
+                     pictureBox1.Image.Save(saveFileDialog1.FileName,ImageFormat.Bmp);
+                 }
+            }
         }
-    }/* end form1 */
+    }/* end Form2 */
 
 
     public partial class Form1 : Form
@@ -836,7 +846,7 @@ namespace SimLorenzAtrc
             ((Form2)fm2).shift_left = -0.2f*(float)(trackBar5.Value);
             ((Form2)fm2).DrawOrthonormalBasis();
         }
-    }/* end form2 */
+    }/* end Form1 */
 
 
     static class Program
