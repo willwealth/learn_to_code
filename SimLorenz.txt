@@ -409,9 +409,11 @@ namespace SimLorenzAtrc
             Invoke(new simulateDelegate(DrawOrthonormalBasis2));
         }
 
-        public Form2()
+        public Form2(int width, int height)
         {
             InitializeComponent();
+	    imax = width;
+	    jmax = height;
             pictureBox1.Image = new Bitmap(imax, jmax);
             pixelunit = scale / imax;
             leftUp = new PointF(pos_left, pos_up);
@@ -445,10 +447,46 @@ namespace SimLorenzAtrc
     }/* end Form2 */
 
 
+
     public partial class Form1 : Form
     {
         Form2 fm2;
 
+        //
+        // ˆø”‚Ì‰ðÍ
+        //
+        private void AnalyzeArgs(ref int width, ref int height)
+        {
+            int pos = -1, len;
+            string opt, val;
+
+            string [] args = Environment.GetCommandLineArgs();
+            if ( args.Length > 1 ){
+                for ( int i = 0; i < args.Length; i++ ){
+                  //Console.WriteLine(args[i]);
+
+                  pos = args[i].IndexOf(":");
+                  if ( pos > 0 )
+                  {
+                    len = args[i].Length;
+                    opt = args[i].Substring(0,pos);
+                    val = args[i].Substring(pos+1,len - pos -1);
+
+                    switch ( opt )
+                    {
+                       case "/w":
+                                    width = int.Parse(val);
+                                    break;
+                       case "/h":
+                                    height = int.Parse(val);
+                                    break;
+                       default:
+                                    break;
+                   }
+                 }
+               }
+           }
+       }
 // designer
         /// <summary>
         /// Required designer variable.
@@ -771,11 +809,13 @@ namespace SimLorenzAtrc
 
         public Form1()
         {
+	    int width =900;
+	    int height =900;
+
             InitializeComponent();
-            //fm2 = form1;
-            //Form1 form2 = new Form1(this);
-            //form2.Show();
-            fm2 = new Form2();
+	    AnalyzeArgs(ref width, ref height);
+	    Console.WriteLine("  width={0}   height={1}", width, height);
+            fm2 = new Form2(width,height);
             fm2.Show();
             ((Form2)fm2).CalcAttractor();
             ((Form2)fm2).DrawOrthonormalBasis();
